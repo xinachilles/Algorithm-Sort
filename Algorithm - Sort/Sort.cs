@@ -66,10 +66,10 @@ namespace Algorithm_Sort
 
         #region Merge Sort
 
-        private void Merge(ref int[] array, int p, int q, int r)
+        private void Merge(ref int[] array, int s, int mid, int e)
         {
-            int n1 = q - p + 1;
-            int n2 = r - q;
+            int n1 = mid - s + 1;
+            int n2 = e - mid;
             int i;
 
             int[] l1 = new int[n1];
@@ -79,18 +79,18 @@ namespace Algorithm_Sort
 
             for (i = 0; i < n1; i++)
             {
-                l1[i] = array[p + i];
+                l1[i] = array[s + i];
             }
 
             for (i = 0; i < n2; i++)
             {
-                r1[i] = array[q + i + 1];
+                r1[i] = array[mid + i + 1];
             }
 
             i = 0;
             int j = 0;
 
-            for (int k = p; k <= r; k++)
+            for (int k = s; k <= e; k++)
             {
 
                 if (i >= l1.Length)
@@ -123,14 +123,14 @@ namespace Algorithm_Sort
             }
         }
 
-        public void MergeSort(ref int[] array, int p, int r)
+        public void MergeSort(ref int[] array, int s, int e)
         {
-            if (p < r)
+            if (s < e)
             {
-                int q = (int)Math.Floor((double)(r + p) / 2);
-                MergeSort(ref array, p, q);
-                MergeSort(ref array, q + 1, r);
-                Merge(ref array, p, q, r);
+                int mid = (int)Math.Floor((double)(e + s) / 2);
+                MergeSort(ref array, s, mid);
+                MergeSort(ref array, mid + 1, e);
+                Merge(ref array, s, mid, e);
 
             }
 
@@ -292,7 +292,7 @@ namespace Algorithm_Sort
         class StringComparator : IComparer<string>
         {
 
-            private String sort(String s)
+            public String sort(String s)
             {
                 char[] letters = s.ToCharArray();
                 Array.Sort(letters);
@@ -326,21 +326,16 @@ namespace Algorithm_Sort
         //Once we've grouped all the words into these lists by anagram, we can then put them
         //back into the arra
 
-        private String sortchars(string s)
-        {
-            char[] content = s.ToCharArray();
-            Array.Sort(content);
-            return new String(content);
-        }
-
+    
         public void AnagramsSort(ref string[] array)
         {
             Hashtable hash = new Hashtable();
+            StringComparator sc = new StringComparator();
 
             /* Group words by anagram */
             foreach (var s in array)
             {
-                String key = sortchars(s);
+                String key = sc.sort(s);
                 if (!hash.Contains(key))
                 {
                     hash.Add(key, new LinkedList<string>());

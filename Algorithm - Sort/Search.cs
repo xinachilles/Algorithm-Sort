@@ -7,27 +7,25 @@ namespace Algorithm_Sort
 {
     class Serarch
     {
-
+        #region Binary Search
         public int BinarySearch(int[] data, int item)
         {
 
             int min = 0;
-            int N = data.Length;
-            int max = N - 1;
+            int max = data.Length - 1;
             do
             {
                 int mid = (min + max) / 2;
-
-                if (item > data[mid])
-                    min = mid + 1;
-                else
-                    max = mid - 1;
                 if (data[mid] == item)
                     return mid;
+                else if (item > data[mid])   min = mid + 1;
+                else max = mid - 1;
+               
 
             } while (min <= max);
             return -1;
         }
+        #endregion
 
         #region 9.3
 
@@ -49,14 +47,13 @@ namespace Algorithm_Sort
                 }
                 else if (data[mid] > mid)
                 {
-                    mid = (min + (mid - 1)) / 2;
-
+                    max = (mid - 1);
 
                 }
                 else
                 {
 
-                    mid = ((mid + 1) + max) / 2;
+                    min = (mid + 1) ;
                 }
 
 
@@ -378,7 +375,7 @@ namespace Algorithm_Sort
             return longestIncreasingSubsequence(items);
         } // end getIncrease
 
-        private void longestIncreasingSubsequence(List<HtWt> array,ref List<HtWt>[] solutions, int current_index)
+        private void longestIncreasingSubsequence(List<HtWt> array,ref List<HtWt>[] solutions, int current_index = 0)
         {
             if (current_index >= array.Count || current_index < 0) return;
             HtWt current_element = (HtWt)array[current_index];
@@ -414,7 +411,7 @@ namespace Algorithm_Sort
         private List<HtWt> longestIncreasingSubsequence(List<HtWt> array)
         {
             List<HtWt>[] solutions = new List<HtWt>[array.Count];
-            longestIncreasingSubsequence(array, ref solutions, 0);
+            longestIncreasingSubsequence(array, ref solutions);
 
             List<HtWt> best_sequence = null;
             for (int i = 0; i < array.Count; i++)
